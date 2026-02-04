@@ -1,6 +1,6 @@
 import web3 from './web3'
 
-const address = '0x16Bd6390d7df87c77b5f0D8a822Bf618a2c8b0a1'
+const address = '0xeA5eFF33dCe8d8AF84cC25BcB596CCB350F91CC5'
 
 const abi = [
 	{ inputs: [], stateMutability: 'nonpayable', type: 'constructor' },
@@ -17,6 +17,13 @@ const abi = [
 		outputs: [
 			{ internalType: 'address payable[]', name: '', type: 'address[]' },
 		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'lastWinner',
+		outputs: [{ internalType: 'address payable', name: '', type: 'address' }],
 		stateMutability: 'view',
 		type: 'function',
 	},
@@ -44,11 +51,8 @@ const abi = [
 ]
 
 interface LotteryMethods {
-	manager(): {
-		call(): Promise<string>
-	}
-	pickWinner(): {
-		send(options: { from: string; gas?: string }): Promise<{
+	enter(): {
+		send(options: { from: string; value: string; gas?: string }): Promise<{
 			transactionHash: string
 			blockHash: string
 			blockNumber: number
@@ -57,8 +61,14 @@ interface LotteryMethods {
 	getPlayers(): {
 		call(): Promise<string[]>
 	}
-	enter(): {
-		send(options: { from: string; value: string; gas?: string }): Promise<{
+	lastWinner(): {
+		call(): Promise<string>
+	}
+	manager(): {
+		call(): Promise<string>
+	}
+	pickWinner(): {
+		send(options: { from: string; gas?: string }): Promise<{
 			transactionHash: string
 			blockHash: string
 			blockNumber: number
